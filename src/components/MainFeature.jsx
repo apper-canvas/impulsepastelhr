@@ -718,12 +718,13 @@ const MainFeature = () => {
                       <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
                         <CalendarIcon className="h-6 w-6 text-surface-500" />
                 
-                {/* Leave Policy Quick View */}
-                <div className="mt-8">
-                <h3 className="text-lg font-semibold text-surface-800 mb-4">Leave Policies Overview</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {leavePolicies.map((policy, index) => (
-                    <div key={index} className="p-4 bg-surface-50 rounded-lg border border-surface-200 flex gap-4">
+                      </div>
+                      <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
+                      <p className="text-sm text-surface-600">
+                        There are no team members on leave for the selected period.
+                      </p>
+                    </div>
+                  )}
                       <div className="flex-shrink-0">
                         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                           {React.createElement(getIcon(policy.icon), { 
@@ -735,6 +736,20 @@ const MainFeature = () => {
                         <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
                         <p className="text-sm text-surface-600">{policy.description}</p>
                       </div>
+                    </div>
+                  ))}
+                  <div className="md:col-span-2 mt-2">
+                    <button className="text-primary hover:text-primary-dark text-sm font-medium">View Complete Leave Policy Document →</button>
+                  </div>
+                </div>
+                </div>
+                
+                {/* Leave Policy Quick View */}
+                <div className="mt-8">
+                <h3 className="text-lg font-semibold text-surface-800 mb-4">Leave Policies Overview</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {leavePolicies.map((policy, index) => (
+                    <div key={index} className="p-4 bg-surface-50 rounded-lg border border-surface-200 flex gap-4">
                     </div>
                   ))}
                   <div className="md:col-span-2 mt-2">
@@ -874,14 +889,6 @@ const MainFeature = () => {
                   </div>
                 </div>
                 
-                      </div>
-                      <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
-                      <p className="text-sm text-surface-600">
-                        There are no team members on leave for the selected period.
-                      </p>
-                    </div>
-                  )}
-                </div>
                 
                 <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
                   <div className="flex items-start gap-3">
