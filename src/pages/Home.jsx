@@ -611,26 +611,192 @@ const Home = () => {
             </motion.div>
           )}
           
-          {activeTab !== 'dashboard' && (
+          {activeTab === 'leave' && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="flex flex-col items-center justify-center min-h-[60vh]"
             >
-              <div className="w-20 h-20 bg-surface-100 rounded-full flex items-center justify-center mb-4">
-                {React.createElement(getIcon(navItems.find(item => item.id === activeTab)?.icon || 'help-circle'), { 
-                  // Using React.createElement to dynamically render the appropriate icon
-                  className: "h-10 w-10 text-primary", 
-                })}
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+                <div>
+                  <h1 className="text-2xl font-bold text-surface-900">Leave Management</h1>
+                  <p className="text-surface-600">Apply, track, and manage leave requests</p>
+                </div>
+                <div className="mt-4 md:mt-0">
+                  <button className="btn btn-primary flex items-center gap-2" onClick={() => document.getElementById('applyLeaveTab')?.click()}>
+                    <CalendarPlusIcon className="h-4 w-4" />
+                    <span>Apply for Leave</span>
+                  </button>
+                </div>
               </div>
-              <h2 className="text-xl font-semibold text-surface-800 mb-2">
-                {navItems.find(item => item.id === activeTab)?.label} Feature
-              </h2>
-              <p className="text-surface-600 text-center max-w-md">
-                This feature will be implemented in the next iteration of the application.
-              </p>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                {/* Leave Status Card */}
+                <div className="card bg-gradient-to-br from-primary-light to-white lg:col-span-1">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-surface-800">My Leave Requests</h3>
+                      <p className="text-sm text-surface-600">Recent applications</p>
+                    </div>
+                    <CalendarIcon className="h-7 w-7 text-primary-dark" />
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="p-3 bg-white rounded-lg border border-surface-100 shadow-sm">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-sm font-medium text-surface-900">Vacation Leave</span>
+                          <p className="text-xs text-surface-600">Apr 15 - Apr 20, 2023</p>
+                        </div>
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Approved</span>
+                      </div>
+                    </div>
+                    
+                    <div className="p-3 bg-white rounded-lg border border-surface-100 shadow-sm">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-sm font-medium text-surface-900">Sick Leave</span>
+                          <p className="text-xs text-surface-600">Mar 3, 2023</p>
+                        </div>
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">Approved</span>
+                      </div>
+                    </div>
+                    
+                    <div className="p-3 bg-white rounded-lg border border-surface-100 shadow-sm">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-sm font-medium text-surface-900">Personal Leave</span>
+                          <p className="text-xs text-surface-600">May 25, 2023</p>
+                        </div>
+                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800">Pending</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <button className="w-full mt-4 px-4 py-2 text-sm font-medium text-primary bg-primary/10 rounded-lg hover:bg-primary/20 transition-colors">
+                    View All Leave History
+                  </button>
+                </div>
+                
+                {/* Leave Statistics */}
+                <div className="card lg:col-span-2">
+                  <h3 className="text-lg font-semibold text-surface-800 mb-4">Leave Balance Overview</h3>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-surface-50 p-4 rounded-lg border border-surface-200">
+                      <div className="text-sm text-surface-600 mb-1">Casual Leave</div>
+                      <div className="flex items-end justify-between">
+                        <div className="text-2xl font-bold text-surface-900">9</div>
+                        <div className="text-xs text-surface-500">of 12 days</div>
+                      </div>
+                      <div className="w-full bg-surface-200 h-2 rounded-full mt-2">
+                        <div className="bg-primary h-2 rounded-full" style={{ width: "75%" }}></div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-surface-50 p-4 rounded-lg border border-surface-200">
+                      <div className="text-sm text-surface-600 mb-1">Sick Leave</div>
+                      <div className="flex items-end justify-between">
+                        <div className="text-2xl font-bold text-surface-900">13</div>
+                        <div className="text-xs text-surface-500">of 15 days</div>
+                      </div>
+                      <div className="w-full bg-surface-200 h-2 rounded-full mt-2">
+                        <div className="bg-secondary h-2 rounded-full" style={{ width: "87%" }}></div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-surface-50 p-4 rounded-lg border border-surface-200">
+                      <div className="text-sm text-surface-600 mb-1">Vacation</div>
+                      <div className="flex items-end justify-between">
+                        <div className="text-2xl font-bold text-surface-900">10</div>
+                        <div className="text-xs text-surface-500">of 20 days</div>
+                      </div>
+                      <div className="w-full bg-surface-200 h-2 rounded-full mt-2">
+                        <div className="bg-accent h-2 rounded-full" style={{ width: "50%" }}></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-semibold text-surface-800 mb-4">Team On Leave Today</h3>
+                  
+                  <div className="border border-surface-200 rounded-lg overflow-hidden">
+                    {/* Team on leave today */}
+                    <div className="divide-y divide-surface-100">
+                      <div className="p-4 hover:bg-surface-50 transition-colors">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium">
+                              MJ
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-surface-800">Michael Johnson</h4>
+                              <div className="text-sm text-surface-600">UI/UX Designer</div>
+                            </div>
+                          </div>
+                          <div className="text-sm font-medium text-secondary-dark">Vacation Leave</div>
+                        </div>
+                      </div>
+                      
+                      <div className="p-4 hover:bg-surface-50 transition-colors">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="h-10 w-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary-dark font-medium">
+                              AS
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-surface-800">Amy Smith</h4>
+                              <div className="text-sm text-surface-600">Marketing Specialist</div>
+                            </div>
+                          </div>
+                          <div className="text-sm font-medium text-primary-dark">Sick Leave</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Main Leave Management Component */}
+              <div className="bg-white rounded-xl shadow-card overflow-hidden">
+                <div className="border-b">
+                  <div className="flex">
+                    <button id="applyLeaveTab" className="px-6 py-4 text-primary font-medium border-b-2 border-primary">Apply</button>
+                    <button className="px-6 py-4 text-surface-600 hover:text-surface-900 border-b-2 border-transparent">My Requests</button>
+                    <button className="px-6 py-4 text-surface-600 hover:text-surface-900 border-b-2 border-transparent">Team Calendar</button>
+                    <button className="px-6 py-4 text-surface-600 hover:text-surface-900 border-b-2 border-transparent">Leave Policies</button>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  {/* Embed the MainFeature component that already has leave application functionality */}
+                  <MainFeature />
+                </div>
+              </div>
             </motion.div>
+          )}
+          
+          {activeTab !== 'dashboard' && (
+            activeTab !== 'leave' && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center justify-center min-h-[60vh]"
+              >
+                <div className="w-20 h-20 bg-surface-100 rounded-full flex items-center justify-center mb-4">
+                  {React.createElement(getIcon(navItems.find(item => item.id === activeTab)?.icon || 'help-circle'), { 
+                    // Using React.createElement to dynamically render the appropriate icon
+                    className: "h-10 w-10 text-primary", 
+                  })}
+                </div>
+                <h2 className="text-xl font-semibold text-surface-800 mb-2">
+                  {navItems.find(item => item.id === activeTab)?.label} Feature
+                </h2>
+                <p className="text-surface-600 text-center max-w-md">
+                  This feature will be implemented in the next iteration of the application.
+                </p>
+              </motion.div>
+            )
           )}
         </main>
       </div>

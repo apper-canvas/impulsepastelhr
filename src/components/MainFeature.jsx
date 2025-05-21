@@ -11,6 +11,13 @@ const MainFeature = () => {
   const AlertCircleIcon = getIcon('alert-circle');
   const XIcon = getIcon('x');
   const CalendarPlusIcon = getIcon('calendar-plus');
+  const UserCheckIcon = getIcon('user-check');
+  const UserXIcon = getIcon('user-x');
+  const FileTextIcon = getIcon('file-text');
+  const ChevronRightIcon = getIcon('chevron-right');
+  const PlusIcon = getIcon('plus');
+  const EditIcon = getIcon('edit');
+  const TrashIcon = getIcon('trash');
   
   // States
   const [activeSection, setActiveSection] = useState('apply'); // 'apply', 'balance', 'calendar'
@@ -29,6 +36,16 @@ const MainFeature = () => {
   // Form validation state
   const [formErrors, setFormErrors] = useState({});
   
+  // Mock leave requests data
+  const [leaveRequests, setLeaveRequests] = useState([
+    { id: 1, type: 'Vacation', startDate: '2023-05-15', endDate: '2023-05-20', reason: 'Family vacation', status: 'Approved', appliedOn: '2023-05-01' },
+    { id: 2, type: 'Sick', startDate: '2023-04-10', endDate: '2023-04-11', reason: 'Caught a cold', status: 'Approved', appliedOn: '2023-04-09' },
+    { id: 3, type: 'Personal', startDate: '2023-05-25', endDate: '2023-05-25', reason: 'Personal errands', status: 'Pending', appliedOn: '2023-05-18' },
+    { id: 4, type: 'Casual', startDate: '2023-06-05', endDate: '2023-06-07', reason: 'Mental health break', status: 'Pending', appliedOn: '2023-05-22' }
+  ]);
+  
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  
   // Mock leave balance data
   const leaveBalances = [
     { type: 'Casual Leave', allocated: 12, used: 3, remaining: 9 },
@@ -37,11 +54,21 @@ const MainFeature = () => {
     { type: 'Optional Holidays', allocated: 3, used: 1, remaining: 2 }
   ];
   
+  // Mock leave policies
+  const leavePolicies = [
+    { title: 'Casual Leave Policy', description: 'Casual leaves are for personal matters and errands that do not fall under sick leave. Maximum 12 days per year.', icon: 'calendar' },
+    { title: 'Sick Leave Policy', description: 'Available when you are ill and unable to work. Requires medical certificate for more than 2 consecutive days. Maximum 15 days per year.', icon: 'thermometer' },
+    { title: 'Vacation Policy', description: 'Annual vacation time for rest and recreation. Should be applied at least 2 weeks in advance. Maximum 20 days per year.', icon: 'plane' },
+    { title: 'Maternity/Paternity Leave', description: 'Available for new parents. Up to 12 weeks for primary caregivers and 4 weeks for secondary caregivers.', icon: 'baby' }
+  ];
+  
   // Mock calendar data (team on leave)
   const teamOnLeave = [
     { name: 'Sarah Johnson', dates: ['2023-05-05', '2023-05-06'], type: 'Casual' },
     { name: 'Michael Brown', dates: ['2023-05-10', '2023-05-12'], type: 'Vacation' },
-    { name: 'Emily Davis', dates: ['2023-05-18', '2023-05-18'], type: 'Sick' }
+    { name: 'Emily Davis', dates: ['2023-05-18', '2023-05-18'], type: 'Sick' },
+    { name: 'Robert Wilson', dates: ['2023-05-22', '2023-05-26'], type: 'Vacation' },
+    { name: 'Jennifer Lee', dates: ['2023-05-15', '2023-05-15'], type: 'Personal' }
   ];
   
   // Calculate today's date in YYYY-MM-DD format for min date in the date picker
@@ -97,6 +124,10 @@ const MainFeature = () => {
     
     if (validateForm()) {
       setIsSubmitting(true);
+
+      // Create a new request object
+      const newRequest = { id: leaveRequests.length + 1, type: leaveForm.leaveType, startDate: leaveForm.startDate, 
+        endDate: leaveForm.endDate, reason: leaveForm.reason, status: 'Pending', appliedOn: today };
       
       // Simulate API call
       setTimeout(() => {
@@ -112,9 +143,10 @@ const MainFeature = () => {
             reason: '',
             attachment: null
           });
+          setLeaveRequests([newRequest, ...leaveRequests]);
           setShowSuccess(false);
           
-          // Show toast notification
+          // Show success notification
           toast.success('Leave application submitted successfully!');
         }, 2000);
       }, 1500);
@@ -127,6 +159,37 @@ const MainFeature = () => {
       setShowSuccess(false);
     }
   }, [leaveForm]);
+  
+  // Function to approve a leave request
+  const approveLeaveRequest = (id) => {
+    setLeaveRequests(leaveRequests.map(request => 
+      request.id === id ? { ...request, status: 'Approved' } : request
+    ));
+    toast.success('Leave request approved successfully!');
+  };
+  
+  // Function to reject a leave request
+  const rejectLeaveRequest = (id) => {
+    setLeaveRequests(leaveRequests.map(request => 
+      request.id === id ? { ...request, status: 'Rejected' } : request
+    ));
+    toast.error('Leave request rejected');
+  };
+  
+  // Function to cancel a leave request
+  const cancelLeaveRequest = (id) => {
+    if (confirm('Are you sure you want to cancel this leave request?')) {
+      setLeaveRequests(leaveRequests.map(request => 
+        request.id === id ? { ...request, status: 'Cancelled' } : request
+      ));
+      toast.info('Leave request cancelled');
+    }
+  };
+  
+  // Function to view leave request details
+  const viewLeaveRequestDetails = (request) => {
+    setSelectedRequest(request);
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-card overflow-hidden">
@@ -141,6 +204,16 @@ const MainFeature = () => {
           onClick={() => setActiveSection('apply')}
         >
           Apply Leave
+        </button>
+        <button
+          className={`flex-1 px-4 py-3 text-center font-medium text-sm transition-colors border-b-2 ${
+            activeSection === 'requests'
+              ? 'border-primary text-primary'
+              : 'border-transparent text-surface-600 hover:text-surface-900 hover:bg-surface-50'
+          }`}
+          onClick={() => setActiveSection('requests')}
+        >
+          My Requests
         </button>
         <button
           className={`flex-1 px-4 py-3 text-center font-medium text-sm transition-colors border-b-2 ${
@@ -352,6 +425,159 @@ const MainFeature = () => {
             </motion.div>
           )}
           
+          {/* My Leave Requests Section */}
+          {activeSection === 'requests' && (
+            <motion.div
+              key="requests"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold text-surface-900">My Leave Requests</h2>
+                <p className="text-surface-600 text-sm">View and manage your leave applications</p>
+              </div>
+              
+              {selectedRequest ? (
+                <div className="space-y-6">
+                  <div className="flex justify-between items-center">
+                    <button
+                      className="text-surface-600 hover:text-surface-900 flex items-center gap-2 text-sm"
+                      onClick={() => setSelectedRequest(null)}
+                    >
+                      <ArrowLeftIcon className="h-4 w-4" />
+                      Back to requests
+                    </button>
+                    
+                    {selectedRequest.status === 'Pending' && (
+                      <button
+                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                        onClick={() => {
+                          cancelLeaveRequest(selectedRequest.id);
+                          setSelectedRequest(null);
+                        }}
+                      >
+                        Cancel Request
+                      </button>
+                    )}
+                  </div>
+                  
+                  <div className="bg-surface-50 rounded-lg p-5 border border-surface-200">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-lg font-semibold text-surface-800">
+                        {selectedRequest.type} Leave Request
+                      </h3>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        selectedRequest.status === 'Approved' ? 'bg-green-100 text-green-800' :
+                        selectedRequest.status === 'Rejected' ? 'bg-red-100 text-red-800' :
+                        selectedRequest.status === 'Cancelled' ? 'bg-surface-200 text-surface-700' :
+                        'bg-amber-100 text-amber-800'
+                      }`}>
+                        {selectedRequest.status}
+                      </span>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <p className="text-sm text-surface-600 mb-1">Date Range</p>
+                        <p className="text-surface-900 font-medium">
+                          {new Date(selectedRequest.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                          {selectedRequest.startDate !== selectedRequest.endDate ? ` - ${new Date(selectedRequest.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}` : ''}
+                        </p>
+                      </div>
+                      
+                      <div>
+                        <p className="text-sm text-surface-600 mb-1">Applied On</p>
+                        <p className="text-surface-900 font-medium">
+                          {new Date(selectedRequest.appliedOn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </p>
+                      </div>
+                      
+                      <div className="md:col-span-2">
+                        <p className="text-sm text-surface-600 mb-1">Reason</p>
+                        <p className="text-surface-900">{selectedRequest.reason}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-5">
+                  <div className="flex justify-between items-center">
+                    <div className="flex space-x-2">
+                      <button className="px-3 py-1.5 text-sm bg-primary/10 text-primary-dark rounded-md">All</button>
+                      <button className="px-3 py-1.5 text-sm text-surface-600 hover:bg-surface-100 rounded-md">Pending</button>
+                      <button className="px-3 py-1.5 text-sm text-surface-600 hover:bg-surface-100 rounded-md">Approved</button>
+                      <button className="px-3 py-1.5 text-sm text-surface-600 hover:bg-surface-100 rounded-md">Rejected</button>
+                    </div>
+                    
+                    <button
+                      className="btn btn-primary text-sm py-1.5 px-3 flex items-center gap-1"
+                      onClick={() => setActiveSection('apply')}
+                    >
+                      <PlusIcon className="h-4 w-4" />
+                      New Request
+                    </button>
+                  </div>
+                  
+                  <div className="border border-surface-200 rounded-lg overflow-hidden">
+                    <table className="min-w-full divide-y divide-surface-200">
+                      <thead className="bg-surface-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Type</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Date Range</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Status</th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Applied On</th>
+                          <th className="px-6 py-3 text-right text-xs font-medium text-surface-700 uppercase tracking-wider">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-surface-200">
+                        {leaveRequests.map((request) => (
+                          <tr key={request.id} className="hover:bg-surface-50 transition-colors">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-surface-900">{request.type}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">
+                              {new Date(request.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                              {request.startDate !== request.endDate ? ` - ${new Date(request.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}` : ''}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                request.status === 'Approved' ? 'bg-green-100 text-green-800' :
+                                request.status === 'Rejected' ? 'bg-red-100 text-red-800' :
+                                request.status === 'Cancelled' ? 'bg-surface-200 text-surface-700' :
+                                'bg-amber-100 text-amber-800'
+                              }`}>
+                                {request.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">
+                              {new Date(request.appliedOn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <button 
+                                className="text-primary hover:text-primary-dark mr-3"
+                                onClick={() => viewLeaveRequestDetails(request)}
+                              >
+                                View
+                              </button>
+                              {request.status === 'Pending' && (
+                                <button 
+                                  className="text-red-600 hover:text-red-800"
+                                  onClick={() => cancelLeaveRequest(request.id)}
+                                >
+                                  Cancel
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
+          
           {/* Leave Balance Section */}
           {activeSection === 'balance' && (
             <motion.div
@@ -427,6 +653,31 @@ const MainFeature = () => {
             <motion.div
               key="calendar"
               initial={{ opacity: 0, y: 10 }}
+              
+              {/* Leave Policy Quick View */}
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-surface-800 mb-4">Leave Policies Overview</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {leavePolicies.map((policy, index) => (
+                    <div key={index} className="p-4 bg-surface-50 rounded-lg border border-surface-200 flex gap-4">
+                      <div className="flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                          {React.createElement(getIcon(policy.icon), { 
+                            className: "h-5 w-5" 
+                          })}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
+                        <p className="text-sm text-surface-600">{policy.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="md:col-span-2 mt-2">
+                    <button className="text-primary hover:text-primary-dark text-sm font-medium">View Complete Leave Policy Document →</button>
+                  </div>
+                </div>
+              </div>
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
@@ -448,10 +699,15 @@ const MainFeature = () => {
                     </p>
                   </div>
                 </div>
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-medium text-surface-800">Team Leave Schedule - May 2023</h3>
+                    <div className="flex space-x-2">
+                      <button className="p-1 bg-surface-100 rounded hover:bg-surface-200 text-surface-700">◀</button>
+                      <button className="p-1 bg-surface-100 rounded hover:bg-surface-200 text-surface-700">▶</button>
+                    </div>
+                  </div>
                 
-                <div className="border border-surface-200 rounded-lg overflow-hidden">
-                  <div className="bg-surface-50 py-3 px-5 border-b font-medium text-surface-800">
-                    Team Leave Schedule - May 2023
+                
                   </div>
                   
                   {teamOnLeave.length > 0 ? (
@@ -486,6 +742,137 @@ const MainFeature = () => {
                     <div className="p-6 text-center">
                       <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
                         <CalendarIcon className="h-6 w-6 text-surface-500" />
+                {/* Calendar View */}
+                <div className="mt-8">
+                  <h3 className="font-medium text-surface-800 mb-4">Monthly Calendar View</h3>
+                  <div className="border border-surface-200 rounded-lg overflow-hidden">
+                    <div className="bg-white p-4">
+                      <div className="grid grid-cols-7 gap-px bg-surface-200">
+                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day, idx) => (
+                          <div key={idx} className="bg-surface-50 text-center py-2 text-sm font-medium text-surface-700">
+                            {day}
+                          </div>
+                        ))}
+                        
+                        {/* Calendar days - this would normally be dynamically generated */}
+                        {Array(35).fill(0).map((_, idx) => {
+                          const dayNum = idx - 1; // Offset for starting day of month
+                          const isCurrentMonth = dayNum >= 0 && dayNum < 31;
+                          const dayDisplay = isCurrentMonth ? dayNum + 1 : '';
+                          
+                          // Check if any team member is on leave this day
+                          const hasLeave = isCurrentMonth && teamOnLeave.some(member => 
+                            member.dates.some(date => {
+                              const dateObj = new Date(date);
+                              return dateObj.getDate() === dayNum + 1 && dateObj.getMonth() === 4; // May is month 4 (0-indexed)
+                            })
+                          );
+                          
+                          return (
+                            <div 
+                              key={idx} 
+                              className={`bg-white p-2 min-h-[70px] ${
+                                !isCurrentMonth ? 'bg-surface-50 text-surface-400' : ''
+                              } ${hasLeave ? 'relative' : ''}`}
+                            >
+                              <div className="text-sm">{dayDisplay}</div>
+                              
+                              {hasLeave && isCurrentMonth && (
+                                <div className="mt-1">
+                                  {teamOnLeave
+                                    .filter(member => member.dates.some(date => {
+                                      const dateObj = new Date(date);
+                                      return dateObj.getDate() === dayNum + 1 && dateObj.getMonth() === 4;
+                                    }))
+                                    .slice(0, 2) // Only show first 2 for space
+                                    .map((member, memberIdx) => (
+                                      <div 
+                                        key={memberIdx}
+                                        className={`text-xs rounded px-1 py-0.5 mb-1 truncate ${
+                                          member.type === 'Vacation' ? 'bg-primary/10 text-primary-dark' :
+                                          member.type === 'Sick' ? 'bg-red-100 text-red-800' :
+                                          'bg-secondary/10 text-secondary-dark'
+                                        }`}
+                                      >
+                                        {member.name.split(' ')[0]}
+                                      </div>
+                                    ))
+                                  }
+                                  
+                                  {/* If more than 2 people are on leave */}
+                                  {teamOnLeave.filter(member => member.dates.some(date => {
+                                    const dateObj = new Date(date);
+                                    return dateObj.getDate() === dayNum + 1 && dateObj.getMonth() === 4;
+                                  })).length > 2 && (
+                                    <div className="text-xs text-surface-600">
+                                      +{teamOnLeave.filter(member => member.dates.some(date => {
+                                        const dateObj = new Date(date);
+                                        return dateObj.getDate() === dayNum + 1 && dateObj.getMonth() === 4;
+                                      })).length - 2} more
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Approvals Section (for managers) */}
+                <div className="mt-8 border-t pt-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-medium text-surface-800">Pending Approvals</h3>
+                    <span className="bg-amber-100 text-amber-800 text-xs font-medium px-2.5 py-0.5 rounded-full">2 Pending</span>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 border border-surface-200 rounded-lg">
+                      <div className="flex justify-between items-start">
+                        <div className="flex gap-3">
+                          <div className="h-10 w-10 rounded-full bg-surface-100 flex items-center justify-center text-surface-600">JD</div>
+                          <div>
+                            <h4 className="font-medium text-surface-800">John Doe</h4>
+                            <p className="text-sm text-surface-600">Casual Leave · May 29-30, 2023</p>
+                            <p className="text-sm text-surface-600 mt-1">Reason: Family event</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button className="p-2 bg-green-100 text-green-700 rounded hover:bg-green-200" onClick={() => approveLeaveRequest(5)}>
+                            <UserCheckIcon className="h-5 w-5" />
+                          </button>
+                          <button className="p-2 bg-red-100 text-red-700 rounded hover:bg-red-200" onClick={() => rejectLeaveRequest(5)}>
+                            <UserXIcon className="h-5 w-5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 border border-surface-200 rounded-lg">
+                      <div className="flex justify-between items-start">
+                        <div className="flex gap-3">
+                          <div className="h-10 w-10 rounded-full bg-surface-100 flex items-center justify-center text-surface-600">JS</div>
+                          <div>
+                            <h4 className="font-medium text-surface-800">Jane Smith</h4>
+                            <p className="text-sm text-surface-600">Sick Leave · May 24, 2023</p>
+                            <p className="text-sm text-surface-600 mt-1">Reason: Doctor's appointment</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <button className="p-2 bg-green-100 text-green-700 rounded hover:bg-green-200" onClick={() => approveLeaveRequest(6)}>
+                            <UserCheckIcon className="h-5 w-5" />
+                          </button>
+                          <button className="p-2 bg-red-100 text-red-700 rounded hover:bg-red-200" onClick={() => rejectLeaveRequest(6)}>
+                            <UserXIcon className="h-5 w-5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
                       </div>
                       <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
                       <p className="text-sm text-surface-600">
