@@ -880,15 +880,15 @@ const MainFeature = () => {
                   </div>
                 
                 <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
-                  <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
-                    <div className="flex items-start gap-3">
-                      <div className="p-1.5 bg-secondary/20 rounded-full text-secondary-dark shrink-0">
-                        <AlertCircleIcon className="h-4 w-4" />
-                      </div>
-                      <p className="text-sm text-surface-600">
-                        You can view up to 3 months of leave schedule. For a complete annual view, please visit the HR portal.
-                      </p>
+                  <div className="flex items-start gap-3">
+                    <div className="p-1.5 bg-secondary/20 rounded-full text-secondary-dark shrink-0">
+                      <AlertCircleIcon className="h-4 w-4" />
+                    </div>
                     <p className="text-sm text-surface-600">
+                      You can view up to 3 months of leave schedule. For a complete annual view, please visit the HR portal.
+                    </p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           )}
