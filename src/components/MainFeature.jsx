@@ -655,6 +655,7 @@ const MainFeature = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
               <div className="mb-6">
@@ -707,10 +708,10 @@ const MainFeature = () => {
                                    : `${new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(entry.dates[entry.dates.length-1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
                                  }
                                </div>
-                             </div>
-                </div>
-                         </div>
-                       ))}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                      </div>
                    ) : (
                      <div className="p-6 text-center">
@@ -731,17 +732,17 @@ const MainFeature = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {leavePolicies.map((policy, index) => (
                       <div key={index} className="p-4 bg-surface-50 rounded-lg border border-surface-200 flex gap-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                        {React.createElement(getIcon(policy.icon), { 
-                          className: "h-5 w-5" 
-                        })}
-                      </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
-                        <p className="text-sm text-surface-600">{policy.description}</p>
-                      </div>
+                        <div className="flex-shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                            {React.createElement(getIcon(policy.icon), { 
+                              className: "h-5 w-5" 
+                            })}
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
+                          <p className="text-sm text-surface-600">{policy.description}</p>
+                        </div>
                       </div>
                     ))}
                     <div className="md:col-span-2 mt-2">
@@ -879,16 +880,17 @@ const MainFeature = () => {
                     </div>
                   </div>
                 
-                <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
-                  <div className="flex items-start gap-3">
-                    <div className="p-1.5 bg-secondary/20 rounded-full text-secondary-dark shrink-0">
-                      <AlertCircleIcon className="h-4 w-4" />
+                  <div className="bg-surface-50 p-4 rounded-lg border border-surface-100 mt-4">
+                    <div className="flex items-start gap-3">
+                      <div className="p-1.5 bg-secondary/20 rounded-full text-secondary-dark shrink-0">
+                        <AlertCircleIcon className="h-4 w-4" />
+                      </div>
+                      <p className="text-sm text-surface-600">
+                        You can view up to 3 months of leave schedule. For a complete annual view, please visit the HR portal.
+                      </p>
                     </div>
-                    <p className="text-sm text-surface-600">
-                      You can view up to 3 months of leave schedule. For a complete annual view, please visit the HR portal.
-                    </p>
-                  </div>
-                </div>
+                    </div>
+    </div>
               </div>
             </motion.div>
           )}
