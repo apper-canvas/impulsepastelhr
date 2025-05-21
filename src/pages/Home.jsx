@@ -51,6 +51,7 @@ const Home = () => {
   const BarChartIcon = getIcon('bar-chart-2');
   const PieChartIcon = getIcon('pie-chart');
   const TrendingUpIcon = getIcon('trending-up');
+  const CalendarPlusIcon = getIcon('calendar-plus');
   const DownloadIcon = getIcon('download');
   const LogOutIcon = getIcon('log-out');
 
