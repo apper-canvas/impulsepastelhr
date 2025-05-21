@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getIcon } from '../utils/iconUtils';
-import TeamCalendar from './TeamCalendar';
 import { toast } from 'react-toastify';
 
 const MainFeature = () => {
@@ -425,7 +424,89 @@ const MainFeature = () => {
           
           {/* Leave Calendar Section */}
           {activeSection === 'calendar' && (
-            <TeamCalendar />
+            <motion.div
+              key="calendar"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="mb-6">
+                <h2 className="text-xl font-semibold text-surface-900">Leave Calendar</h2>
+                <p className="text-surface-600 text-sm">Team members on leave</p>
+              </div>
+              
+              <div className="space-y-5">
+                <div className="bg-secondary/10 p-4 rounded-lg flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+                  <div className="p-2 bg-white rounded-full shrink-0 self-start sm:self-auto">
+                    <ClockIcon className="h-5 w-5 text-secondary-dark" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-surface-800">Upcoming Leave Calendar</h3>
+                    <p className="text-sm text-surface-600 mt-1">
+                      View your team's leave schedule to plan better.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="border border-surface-200 rounded-lg overflow-hidden">
+                  <div className="bg-surface-50 py-3 px-5 border-b font-medium text-surface-800">
+                    Team Leave Schedule - May 2023
+                  </div>
+                  
+                  {teamOnLeave.length > 0 ? (
+                    <div className="divide-y divide-surface-100">
+                      {teamOnLeave.map((entry, index) => (
+                        <div key={index} className="p-4 hover:bg-surface-50 transition-colors">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div className="flex items-center gap-3">
+                              <div className="h-9 w-9 rounded-full bg-surface-200 flex items-center justify-center text-surface-600 font-medium">
+                                {entry.name.split(' ').map(part => part[0]).join('')}
+                              </div>
+                              <div>
+                                <h4 className="font-medium text-surface-800">{entry.name}</h4>
+                                <div className="text-sm text-surface-600">
+                                  {entry.type} Leave
+                                </div>
+                              </div>
+                            </div>
+                            <div className="ml-12 sm:ml-0">
+                              <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary-dark">
+                                {entry.dates.length === 1 
+                                  ? new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                                  : `${new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(entry.dates[entry.dates.length-1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 text-center">
+                      <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
+                        <CalendarIcon className="h-6 w-6 text-surface-500" />
+                      </div>
+                      <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
+                      <p className="text-sm text-surface-600">
+                        There are no team members on leave for the selected period.
+                      </p>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
+                  <div className="flex items-start gap-3">
+                    <div className="p-1.5 bg-secondary/20 rounded-full text-secondary-dark shrink-0">
+                      <AlertCircleIcon className="h-4 w-4" />
+                    </div>
+                    <p className="text-sm text-surface-600">
+                      You can view up to 3 months of leave schedule. For a complete annual view, please visit the HR portal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>

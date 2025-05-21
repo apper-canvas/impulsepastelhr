@@ -25,23 +25,11 @@ export default {
           300: '#cbd5e1',
           400: '#94a3b8',  // Added
           500: '#64748b',  // Added
-          50: '#f8fafc',   // Lightest
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',  // Added
-          500: '#64748b',  // Added
           600: '#475569',  // Added
           700: '#334155',  // Added
           800: '#1e293b',  // Added
           900: '#0f172a'   // Darkest
         }
-      },
-      backgroundColor: {
-        'leave-vacation': '#F8C8DC', // Light pink for vacation
-        'leave-sick': '#FFD6AA',     // Light orange for sick leave
-        'leave-casual': '#AEC6CF',   // Light blue for casual leave
-        'leave-holiday': '#B4E1C6',  // Light green for holidays
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui'],
