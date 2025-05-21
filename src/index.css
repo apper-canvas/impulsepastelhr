@@ -55,6 +55,14 @@
   .neu-card {
     @apply bg-surface-50 rounded-xl shadow-neu-light p-5 transition-all duration-300;
   }
+
+  .chart-container {
+    @apply bg-white rounded-lg overflow-hidden border border-surface-100;
+  }
+
+  .tab-content {
+    @apply bg-white p-6 rounded-b-lg shadow-sm;
+  }
 }
 
 @layer utilities {
@@ -69,5 +77,9 @@
   
   .text-balance {
     text-wrap: balance;
+  }
+
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }

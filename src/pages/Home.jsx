@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import React from 'react';
 import { getIcon } from '../utils/iconUtils';
 import MainFeature from '../components/MainFeature';
 
@@ -31,6 +32,7 @@ const Home = () => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
     { id: 'leave', label: 'Leave Management', icon: 'calendar' },
+    { id: 'analytics', label: 'Reports & Analytics', icon: 'bar-chart-2' },
     { id: 'attendance', label: 'Attendance', icon: 'clock-3' },
     { id: 'payslips', label: 'Payslips', icon: 'receipt' },
     { id: 'settings', label: 'Settings', icon: 'settings' },
@@ -46,6 +48,10 @@ const Home = () => {
   const FileTextIcon = getIcon('file-text');
   const ChevronRightIcon = getIcon('chevron-right');
   const UserIcon = getIcon('user');
+  const BarChartIcon = getIcon('bar-chart-2');
+  const PieChartIcon = getIcon('pie-chart');
+  const TrendingUpIcon = getIcon('trending-up');
+  const DownloadIcon = getIcon('download');
   const LogOutIcon = getIcon('log-out');
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -277,6 +283,333 @@ const Home = () => {
               <MainFeature />
             </motion.div>
           )}
+
+          {activeTab === 'analytics' && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6">
+                <div>
+                  <h1 className="text-2xl font-bold text-surface-900">Analytics Dashboard</h1>
+                  <p className="text-surface-600">Monitor key performance indicators and generate reports</p>
+                </div>
+                <div className="mt-4 md:mt-0">
+                  <button className="btn btn-primary flex items-center gap-2">
+                    <DownloadIcon className="h-4 w-4" />
+                    <span>Generate Report</span>
+                  </button>
+                </div>
+              </div>
+              
+              {/* KPI Summary Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {/* Attendance Rate Card */}
+                <div className="card">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <p className="text-sm text-surface-600">Attendance Rate</p>
+                      <h3 className="text-2xl font-bold text-surface-900">95.7%</h3>
+                    </div>
+                    <div className="p-2 bg-primary/10 rounded-md">
+                      <CheckCircleIcon className="h-6 w-6 text-primary-dark" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-green-600">+2.4%</span>
+                    <span className="text-xs text-surface-600">vs last month</span>
+                  </div>
+                </div>
+                
+                {/* Leave Utilization Card */}
+                <div className="card">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <p className="text-sm text-surface-600">Leave Utilization</p>
+                      <h3 className="text-2xl font-bold text-surface-900">32.8%</h3>
+                    </div>
+                    <div className="p-2 bg-secondary/10 rounded-md">
+                      <CalendarIcon className="h-6 w-6 text-secondary-dark" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-red-600">+5.3%</span>
+                    <span className="text-xs text-surface-600">vs last month</span>
+                  </div>
+                </div>
+                
+                {/* Overtime Hours Card */}
+                <div className="card">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <p className="text-sm text-surface-600">Overtime Hours</p>
+                      <h3 className="text-2xl font-bold text-surface-900">126h</h3>
+                    </div>
+                    <div className="p-2 bg-accent/10 rounded-md">
+                      <ClockIcon className="h-6 w-6 text-accent" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-red-600">+12.5%</span>
+                    <span className="text-xs text-surface-600">vs last month</span>
+                  </div>
+                </div>
+                
+                {/* Employee Engagement Card */}
+                <div className="card">
+                  <div className="flex items-start justify-between mb-3">
+                    <div>
+                      <p className="text-sm text-surface-600">Engagement Score</p>
+                      <h3 className="text-2xl font-bold text-surface-900">78/100</h3>
+                    </div>
+                    <div className="p-2 bg-primary/10 rounded-md">
+                      <TrendingUpIcon className="h-6 w-6 text-primary-dark" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-green-600">+4.2%</span>
+                    <span className="text-xs text-surface-600">vs last month</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Analytics Tabs */}
+              <div className="mb-6">
+                <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                  <div className="flex border-b">
+                    <button className="px-4 py-3 text-surface-900 border-b-2 border-primary font-medium flex-1">
+                      Attendance Analytics
+                    </button>
+                    <button className="px-4 py-3 text-surface-600 hover:text-surface-900 flex-1">
+                      Leave Analytics
+                    </button>
+                    <button className="px-4 py-3 text-surface-600 hover:text-surface-900 flex-1">
+                      Performance Metrics
+                    </button>
+                  </div>
+                  
+                  {/* Filter Controls */}
+                  <div className="p-4 bg-surface-50 border-b">
+                    <div className="flex flex-wrap gap-4">
+                      <div className="flex-1 min-w-[200px]">
+                        <label className="block text-sm font-medium text-surface-700 mb-1">Date Range</label>
+                        <select className="input-field">
+                          <option>Last 30 days</option>
+                          <option>Last Quarter</option>
+                          <option>Last 6 months</option>
+                          <option>Year to date</option>
+                          <option>Custom Range</option>
+                        </select>
+                      </div>
+                      <div className="flex-1 min-w-[200px]">
+                        <label className="block text-sm font-medium text-surface-700 mb-1">Department</label>
+                        <select className="input-field">
+                          <option>All Departments</option>
+                          <option>Engineering</option>
+                          <option>Marketing</option>
+                          <option>Sales</option>
+                          <option>Operations</option>
+                          <option>Human Resources</option>
+                        </select>
+                      </div>
+                      <div className="flex-1 min-w-[200px]">
+                        <label className="block text-sm font-medium text-surface-700 mb-1">Employee</label>
+                        <select className="input-field">
+                          <option>All Employees</option>
+                          <option>Management Only</option>
+                          <option>Staff Only</option>
+                          <option>Remote Workers</option>
+                          <option>On-site Workers</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Chart Content */}
+                  <div className="p-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {/* Attendance Trend Chart */}
+                      <div className="card">
+                        <h3 className="text-lg font-semibold text-surface-800 mb-4">Attendance Trend</h3>
+                        <div className="h-80 chart-container">
+                          {/* ApexCharts would be rendered here */}
+                          <div className="flex items-center justify-center h-full bg-surface-50 rounded-lg">
+                            <div className="text-center">
+                              <BarChartIcon className="h-10 w-10 text-surface-400 mx-auto mb-3" />
+                              <p className="text-surface-600">
+                                Monthly attendance trend showing check-in patterns
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Department Comparison Chart */}
+                      <div className="card">
+                        <h3 className="text-lg font-semibold text-surface-800 mb-4">Department Comparison</h3>
+                        <div className="h-80 chart-container">
+                          {/* ApexCharts would be rendered here */}
+                          <div className="flex items-center justify-center h-full bg-surface-50 rounded-lg">
+                            <div className="text-center">
+                              <BarChartIcon className="h-10 w-10 text-surface-400 mx-auto mb-3" />
+                              <p className="text-surface-600">
+                                Attendance comparison across all departments
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Working Hours Distribution */}
+                      <div className="card">
+                        <h3 className="text-lg font-semibold text-surface-800 mb-4">Working Hours Distribution</h3>
+                        <div className="h-80 chart-container">
+                          {/* ApexCharts would be rendered here */}
+                          <div className="flex items-center justify-center h-full bg-surface-50 rounded-lg">
+                            <div className="text-center">
+                              <PieChartIcon className="h-10 w-10 text-surface-400 mx-auto mb-3" />
+                              <p className="text-surface-600">
+                                Distribution of work hours, overtime, and breaks
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Absence Reasons */}
+                      <div className="card">
+                        <h3 className="text-lg font-semibold text-surface-800 mb-4">Absence Reasons</h3>
+                        <div className="h-80 chart-container">
+                          {/* ApexCharts would be rendered here */}
+                          <div className="flex items-center justify-center h-full bg-surface-50 rounded-lg">
+                            <div className="text-center">
+                              <PieChartIcon className="h-10 w-10 text-surface-400 mx-auto mb-3" />
+                              <p className="text-surface-600">
+                                Breakdown of absence reasons and categories
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Additional Metrics Table */}
+                    <div className="mt-6">
+                      <h3 className="text-lg font-semibold text-surface-800 mb-4">Detailed Attendance Metrics</h3>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full bg-white rounded-lg overflow-hidden">
+                          <thead className="bg-surface-100">
+                            <tr>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Employee</th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Department</th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Attendance Rate</th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Avg. Work Hours</th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Leave Days Used</th>
+                              <th className="px-6 py-3 text-left text-xs font-medium text-surface-700 uppercase tracking-wider">Performance Score</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-surface-200">
+                            <tr className="hover:bg-surface-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">Alex Morgan</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">Engineering</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">97.5%</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">7.9 hrs</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">5/28</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">85/100</td>
+                            </tr>
+                            <tr className="hover:bg-surface-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">Jamie Williams</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">Marketing</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">94.2%</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">8.2 hrs</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">8/28</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">79/100</td>
+                            </tr>
+                            <tr className="hover:bg-surface-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">Sam Reynolds</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">Sales</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">98.1%</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">8.5 hrs</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">3/28</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">92/100</td>
+                            </tr>
+                            <tr className="hover:bg-surface-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">Taylor Kim</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">Operations</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">95.8%</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">7.7 hrs</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">6/28</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">81/100</td>
+                            </tr>
+                            <tr className="hover:bg-surface-50">
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">Jordan Lee</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-600">Engineering</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">96.3%</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">8.0 hrs</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">4/28</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-surface-800">88/100</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Report Generation Section */}
+              <div className="mt-8">
+                <h2 className="text-xl font-bold text-surface-900 mb-4">Generate Reports</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Attendance Report Card */}
+                  <div className="card hover:shadow-soft cursor-pointer transition-all">
+                    <div className="flex items-center justify-center w-12 h-12 bg-primary/10 rounded-lg mb-4">
+                      <CheckCircleIcon className="h-6 w-6 text-primary-dark" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-surface-800 mb-2">Attendance Report</h3>
+                    <p className="text-surface-600 mb-4">Detailed employee attendance patterns, clock-in/out times, and absence rates.</p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <button className="btn btn-primary text-sm py-1.5 flex-1">Generate</button>
+                      <button className="btn bg-surface-100 text-surface-800 hover:bg-surface-200 text-sm py-1.5">
+                        <DownloadIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Leave Utilization Report Card */}
+                  <div className="card hover:shadow-soft cursor-pointer transition-all">
+                    <div className="flex items-center justify-center w-12 h-12 bg-secondary/10 rounded-lg mb-4">
+                      <CalendarIcon className="h-6 w-6 text-secondary-dark" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-surface-800 mb-2">Leave Utilization</h3>
+                    <p className="text-surface-600 mb-4">Analysis of leave usage patterns, balance tracking, and type distribution.</p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <button className="btn btn-primary text-sm py-1.5 flex-1">Generate</button>
+                      <button className="btn bg-surface-100 text-surface-800 hover:bg-surface-200 text-sm py-1.5">
+                        <DownloadIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Performance Metrics Report Card */}
+                  <div className="card hover:shadow-soft cursor-pointer transition-all">
+                    <div className="flex items-center justify-center w-12 h-12 bg-accent/10 rounded-lg mb-4">
+                      <TrendingUpIcon className="h-6 w-6 text-accent" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-surface-800 mb-2">Performance Metrics</h3>
+                    <p className="text-surface-600 mb-4">Comprehensive view of employee performance indicators and engagement scores.</p>
+                    <div className="flex items-center gap-2 mt-auto">
+                      <button className="btn btn-primary text-sm py-1.5 flex-1">Generate</button>
+                      <button className="btn bg-surface-100 text-surface-800 hover:bg-surface-200 text-sm py-1.5">
+                        <DownloadIcon className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
           
           {activeTab !== 'dashboard' && (
             <motion.div
@@ -287,6 +620,7 @@ const Home = () => {
             >
               <div className="w-20 h-20 bg-surface-100 rounded-full flex items-center justify-center mb-4">
                 {React.createElement(getIcon(navItems.find(item => item.id === activeTab)?.icon || 'help-circle'), { 
+                  // Using React.createElement to dynamically render the appropriate icon
                   className: "h-10 w-10 text-primary", 
                 })}
               </div>
