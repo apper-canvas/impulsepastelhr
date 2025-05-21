@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { getIcon } from '../utils/iconUtils';
 import MainFeature from '../components/MainFeature';
@@ -31,7 +31,6 @@ const Home = () => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard' },
     { id: 'leave', label: 'Leave Management', icon: 'calendar' },
-    { id: 'profile', label: 'Employee Profile', icon: 'user-circle' },
     { id: 'attendance', label: 'Attendance', icon: 'clock-3' },
     { id: 'payslips', label: 'Payslips', icon: 'receipt' },
     { id: 'settings', label: 'Settings', icon: 'settings' },
@@ -48,18 +47,6 @@ const Home = () => {
   const ChevronRightIcon = getIcon('chevron-right');
   const UserIcon = getIcon('user');
   const LogOutIcon = getIcon('log-out');
-  const EditIcon = getIcon('edit');
-  const SaveIcon = getIcon('save');
-  const XCircleIcon = getIcon('x-circle');
-  
-  // Profile state
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [profileData, setProfileData] = useState({
-    name: "Alex Morgan",
-    email: "alex.morgan@example.com",
-    phone: "+1 (555) 123-4567",
-    jobTitle: "Software Developer"
-  });
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -288,165 +275,6 @@ const Home = () => {
               
               {/* Main Feature Component for Leave Application */}
               <MainFeature />
-            </motion.div>
-          )}
-
-          {activeTab === 'profile' && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-surface-900">Employee Profile</h1>
-                {!isEditingProfile && (
-                  <button 
-                    onClick={() => setIsEditingProfile(true)}
-                    className="btn btn-primary flex items-center gap-2"
-                  >
-                    <EditIcon className="h-4 w-4" />
-                    <span>Edit Profile</span>
-                  </button>
-                )}
-              </div>
-              
-              <div className="bg-white rounded-xl shadow-card overflow-hidden">
-                {/* Profile Header */}
-                <div className="bg-gradient-to-r from-primary-light to-secondary-light p-6">
-                  <div className="flex flex-col md:flex-row items-center md:items-end gap-4">
-                    <div className="h-24 w-24 rounded-full bg-white p-1">
-                      <img 
-                        src={user.avatarUrl} 
-                        alt={user.name} 
-                        className="h-full w-full rounded-full object-cover"
-                      />
-                    </div>
-                    <div className="text-center md:text-left">
-                      <h2 className="text-2xl font-bold text-surface-800">{profileData.name}</h2>
-                      <p className="text-surface-700">{profileData.jobTitle}</p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Profile Content */}
-                <div className="p-6">
-                  {!isEditingProfile ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-semibold text-surface-800 border-b pb-2">Personal Information</h3>
-                        
-                        <div>
-                          <p className="text-sm text-surface-500">Full Name</p>
-                          <p className="text-surface-800">{profileData.name}</p>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm text-surface-500">Email Address</p>
-                          <p className="text-surface-800">{profileData.email}</p>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm text-surface-500">Phone Number</p>
-                          <p className="text-surface-800">{profileData.phone}</p>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm text-surface-500">Job Title</p>
-                          <p className="text-surface-800">{profileData.jobTitle}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-semibold text-surface-800 border-b pb-2">Documents</h3>
-                        <div className="p-8 border-2 border-dashed rounded-lg flex flex-col items-center justify-center text-surface-500">
-                          <p>No documents uploaded yet</p>
-                          <button className="mt-2 text-primary hover:text-primary-dark transition-colors">
-                            + Upload Document
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <form onSubmit={(e) => {
-                      e.preventDefault();
-                      setIsEditingProfile(false);
-                      // Show success toast
-                      alert("Profile updated successfully!");
-                    }}>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-4">
-                          <h3 className="text-lg font-semibold text-surface-800 border-b pb-2">Edit Personal Information</h3>
-                          
-                          <div>
-                            <label className="block text-sm text-surface-700 mb-1" htmlFor="name">Full Name</label>
-                            <input 
-                              type="text" 
-                              id="name"
-                              className="input-field" 
-                              value={profileData.name}
-                              onChange={(e) => setProfileData({...profileData, name: e.target.value})}
-                              required
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm text-surface-700 mb-1" htmlFor="email">Email Address</label>
-                            <input 
-                              type="email" 
-                              id="email"
-                              className="input-field" 
-                              value={profileData.email}
-                              onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                              required
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm text-surface-700 mb-1" htmlFor="phone">Phone Number</label>
-                            <input 
-                              type="tel" 
-                              id="phone"
-                              className="input-field" 
-                              value={profileData.phone}
-                              onChange={(e) => setProfileData({...profileData, phone: e.target.value})}
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm text-surface-700 mb-1" htmlFor="jobTitle">Job Title</label>
-                            <input 
-                              type="text" 
-                              id="jobTitle"
-                              className="input-field" 
-                              value={profileData.jobTitle}
-                              onChange={(e) => setProfileData({...profileData, jobTitle: e.target.value})}
-                              required
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex justify-end mt-6 space-x-3">
-                        <button 
-                          type="button"
-                          onClick={() => setIsEditingProfile(false)}
-                          className="px-4 py-2 border border-surface-200 rounded-lg text-surface-700 hover:bg-surface-50 transition-colors flex items-center gap-2"
-                        >
-                          <XCircleIcon className="h-4 w-4" />
-                          <span>Cancel</span>
-                        </button>
-                        <button 
-                          type="submit"
-                          className="btn btn-primary flex items-center gap-2"
-                        >
-                          <SaveIcon className="h-4 w-4" />
-                          <span>Save Changes</span>
-                        </button>
-                      </div>
-                    </form>
-                  )}
-                </div>
-              </div>
             </motion.div>
           )}
           
