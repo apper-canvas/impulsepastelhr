@@ -883,8 +883,6 @@ const MainFeature = () => {
                   </div>
                 
                 <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
-                
-                <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
                   <div className="flex items-start gap-3">
                     <div className="p-1.5 bg-secondary/20 rounded-full text-secondary-dark shrink-0">
                       <AlertCircleIcon className="h-4 w-4" />
