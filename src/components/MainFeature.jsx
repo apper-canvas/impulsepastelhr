@@ -682,61 +682,55 @@ const MainFeature = () => {
                     </div>
                   </div>
                 
-                
-                </div>
-                  
                 <div className="space-y-5">
-                {teamOnLeave.length > 0 ? (
-                  <div className="divide-y divide-surface-100">
-                    {teamOnLeave.map((entry, index) => (
-                      <div key={index} className="p-4 hover:bg-surface-50 transition-colors">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                          <div className="flex items-center gap-3">
-                            <div className="h-9 w-9 rounded-full bg-surface-200 flex items-center justify-center text-surface-600 font-medium">
-                                {entry.name.split(' ').map(part => part[0]).join('')}
+                  {teamOnLeave.length > 0 ? (
+                    <div className="divide-y divide-surface-100">
+                      {teamOnLeave.map((entry, index) => (
+                        <div key={index} className="p-4 hover:bg-surface-50 transition-colors">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div className="flex items-center gap-3">
+                              <div className="h-9 w-9 rounded-full bg-surface-200 flex items-center justify-center text-surface-600 font-medium">
+                                  {entry.name.split(' ').map(part => part[0]).join('')}
+                                </div>
+                                <div>
+                                  <h4 className="font-medium text-surface-800">{entry.name}</h4>
+                                  <div className="text-sm text-surface-600">
+                                    {entry.type} Leave
+                                  </div>
+                </div>
                               </div>
-                              <div>
-                                <h4 className="font-medium text-surface-800">{entry.name}</h4>
-                                <div className="text-sm text-surface-600">
-                                  {entry.type} Leave
+                              <div className="ml-12 sm:ml-0">
+                                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary-dark">
+                                  {entry.dates.length === 1 
+                                    ? new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                                    : `${new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(entry.dates[entry.dates.length-1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                                  }
                                 </div>
                               </div>
                             </div>
-                            <div className="ml-12 sm:ml-0">
-                              <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary-dark">
-                                {entry.dates.length === 1 
-                                  ? new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                                  : `${new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(entry.dates[entry.dates.length-1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                                }
-                              </div>
-                            </div>
                           </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-6 text-center">
+                        <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
+                          <CalendarIcon className="h-6 w-6 text-surface-500" />
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-6 text-center">
-                      <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
-                        <CalendarIcon className="h-6 w-6 text-surface-500" />
-                
-                       </div>
-                       <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
-                       <p className="text-sm text-surface-600">
-                         There are no team members on leave for the selected period.
-                       </p>
-                     </div>
-                   )}
-                </div>
-                
-                </div>
+                        <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
+                        <p className="text-sm text-surface-600">
+                          There are no team members on leave for the selected period.
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
                 {/* Leave Policy Quick View */}
                 <div className="mt-8">
-                <h3 className="text-lg font-semibold text-surface-800 mb-4">Leave Policies Overview</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {leavePolicies.map((policy, index) => (
-                  <div key={index} className="p-4 bg-surface-50 rounded-lg border border-surface-200 flex gap-4">
+                  <h3 className="text-lg font-semibold text-surface-800 mb-4">Leave Policies Overview</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    {leavePolicies.map((policy, index) => (
+                      <div key={index} className="p-4 bg-surface-50 rounded-lg border border-surface-200 flex gap-4">
                     <div className="flex-shrink-0">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                         {React.createElement(getIcon(policy.icon), { 
@@ -748,12 +742,12 @@ const MainFeature = () => {
                       <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
                       <p className="text-sm text-surface-600">{policy.description}</p>
                     </div>
-                  ))}
-                  <div className="md:col-span-2 mt-2">
-                    <button className="text-primary hover:text-primary-dark text-sm font-medium">View Complete Leave Policy Document →</button>
+                      </div>
+                    ))}
+                    <div className="md:col-span-2 mt-2">
+                      <button className="text-primary hover:text-primary-dark text-sm font-medium">View Complete Leave Policy Document →</button>
+                    </div>
                   </div>
-                </div>
-                </div>
                 
                 {/* Calendar View */}
                 <div className="mt-8">
