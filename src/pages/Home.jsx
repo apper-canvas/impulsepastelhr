@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { getIcon } from '../utils/iconUtils';
@@ -7,6 +7,7 @@ import MainFeature from '../components/MainFeature';
 const Home = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const mainFeatureRef = useRef(null);
   
   // Mock user data
   const user = {
@@ -624,7 +625,8 @@ const Home = () => {
                   <p className="text-surface-600">Apply, track, and manage leave requests</p>
                 </div>
                 <div className="mt-4 md:mt-0">
-                  <button className="btn btn-primary flex items-center gap-2" onClick={() => document.getElementById('applyLeaveTab')?.click()}>
+                  <button className="btn btn-primary flex items-center gap-2" 
+                    onClick={() => mainFeatureRef.current?.setActiveSection('apply')}>
                     <CalendarPlusIcon className="h-4 w-4" />
                     <span>Apply for Leave</span>
                   </button>
@@ -770,7 +772,7 @@ const Home = () => {
                 
                 <div className="p-6">
                   {/* Embed the MainFeature component that already has leave application functionality */}
-                  <MainFeature />
+                  <MainFeature ref={mainFeatureRef} initialSection="apply" />
                 </div>
               </div>
             </motion.div>

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion'; 
 import { getIcon } from '../utils/iconUtils';
 import { toast } from 'react-toastify';
 
-const MainFeature = () => {
+const MainFeature = forwardRef((props, ref) => {
   // Icons
   const CalendarIcon = getIcon('calendar');
   const ClockIcon = getIcon('clock');
@@ -15,12 +15,20 @@ const MainFeature = () => {
   const UserXIcon = getIcon('user-x');
   const FileTextIcon = getIcon('file-text');
   const ChevronRightIcon = getIcon('chevron-right');
+  const ArrowLeftIcon = getIcon('arrow-left');
   const PlusIcon = getIcon('plus');
   const EditIcon = getIcon('edit');
   const TrashIcon = getIcon('trash');
   
+  // Expose methods to parent components
+  useImperativeHandle(ref, () => ({
+    setActiveSection: (section) => {
+      setActiveSection(section);
+    }
+  }));
+  
   // States
-  const [activeSection, setActiveSection] = useState('apply'); // 'apply', 'balance', 'calendar'
+  const [activeSection, setActiveSection] = useState(props.initialSection || 'apply'); // 'apply', 'balance', 'calendar'
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   
@@ -655,7 +663,6 @@ const MainFeature = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
               <div className="mb-6">
@@ -891,13 +898,15 @@ const MainFeature = () => {
                     </div>
                     </div>
     </div>
-              </div>
+                  </div>
+                </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
     </div>
   );
-};
+});
+
+export default MainFeature;
 
 export default MainFeature;
