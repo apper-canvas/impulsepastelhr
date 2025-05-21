@@ -654,6 +654,9 @@ const MainFeature = () => {
               key="calendar"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
+              key="calendar"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
             >
@@ -674,13 +677,14 @@ const MainFeature = () => {
                     </p>
                   </div>
                 </div>
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-medium text-surface-800">Team Leave Schedule - May 2023</h3>
-                    <div className="flex space-x-2">
-                      <button className="p-1 bg-surface-100 rounded hover:bg-surface-200 text-surface-700">◀</button>
-                      <button className="p-1 bg-surface-100 rounded hover:bg-surface-200 text-surface-700">▶</button>
-                    </div>
+                
+                <div className="flex justify-between items-center">
+                  <h3 className="font-medium text-surface-800">Team Leave Schedule - May 2023</h3>
+                  <div className="flex space-x-2">
+                    <button className="p-1 bg-surface-100 rounded hover:bg-surface-200 text-surface-700">◀</button>
+                    <button className="p-1 bg-surface-100 rounded hover:bg-surface-200 text-surface-700">▶</button>
                   </div>
+                </div>
                 
                 <div className="space-y-5">
                   {teamOnLeave.length > 0 ? (
@@ -690,39 +694,38 @@ const MainFeature = () => {
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div className="flex items-center gap-3">
                               <div className="h-9 w-9 rounded-full bg-surface-200 flex items-center justify-center text-surface-600 font-medium">
-                                  {entry.name.split(' ').map(part => part[0]).join('')}
-                                </div>
-                                <div>
-                                  <h4 className="font-medium text-surface-800">{entry.name}</h4>
-                                  <div className="text-sm text-surface-600">
-                                    {entry.type} Leave
-                                  </div>
+                                 {entry.name.split(' ').map(part => part[0]).join('')}
+                               </div>
+                               <div>
+                                 <h4 className="font-medium text-surface-800">{entry.name}</h4>
+                                 <div className="text-sm text-surface-600">
+                                   {entry.type} Leave
+                                 </div>
+                               </div>
+                             </div>
+                             <div className="ml-12 sm:ml-0">
+                               <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary-dark">
+                                 {entry.dates.length === 1 
+                                   ? new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                                   : `${new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(entry.dates[entry.dates.length-1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
+                                 }
+                               </div>
+                             </div>
                 </div>
-                              </div>
-                              <div className="ml-12 sm:ml-0">
-                                <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary-dark">
-                                  {entry.dates.length === 1 
-                                    ? new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                                    : `${new Date(entry.dates[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${new Date(entry.dates[entry.dates.length-1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
-                                  }
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="p-6 text-center">
-                        <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
-                          <CalendarIcon className="h-6 w-6 text-surface-500" />
-                        </div>
-                        <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
-                        <p className="text-sm text-surface-600">
-                          There are no team members on leave for the selected period.
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                         </div>
+                       ))}
+                     </div>
+                   ) : (
+                     <div className="p-6 text-center">
+                       <div className="w-12 h-12 mx-auto bg-surface-100 rounded-full flex items-center justify-center mb-3">
+                         <CalendarIcon className="h-6 w-6 text-surface-500" />
+                       </div>
+                       <h3 className="font-medium text-surface-800 mb-1">No upcoming leaves</h3>
+                       <p className="text-sm text-surface-600">
+                         There are no team members on leave for the selected period.
+                       </p>
+                     </div>
+                   )}
                 </div>
                 
                 {/* Leave Policy Quick View */}
@@ -737,18 +740,18 @@ const MainFeature = () => {
                           className: "h-5 w-5" 
                         })}
                       </div>
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
-                      <p className="text-sm text-surface-600">{policy.description}</p>
-                    </div>
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-surface-800 mb-1">{policy.title}</h4>
+                        <p className="text-sm text-surface-600">{policy.description}</p>
+                      </div>
                       </div>
                     ))}
                     <div className="md:col-span-2 mt-2">
                       <button className="text-primary hover:text-primary-dark text-sm font-medium">View Complete Leave Policy Document →</button>
                     </div>
                   </div>
-                
+                </div>
                 {/* Calendar View */}
                 <div className="mt-8">
                   <h3 className="font-medium text-surface-800 mb-4">Monthly Calendar View</h3>
@@ -878,8 +881,8 @@ const MainFeature = () => {
                       </div>
                     </div>
                   </div>
-                </div>
                 
+                <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
                 
                 <div className="bg-surface-50 p-4 rounded-lg border border-surface-100">
                   <div className="flex items-start gap-3">
