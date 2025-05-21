@@ -896,7 +896,7 @@ const MainFeature = forwardRef((props, ref) => {
                         You can view up to 3 months of leave schedule. For a complete annual view, please visit the HR portal.
                       </p>
                     </div>
-                    </div>
+                  </div>
     </div>
                   </div>
                 </div>
@@ -906,7 +906,5 @@ const MainFeature = forwardRef((props, ref) => {
     </div>
   );
 });
-
-export default MainFeature;
 
 export default MainFeature;
