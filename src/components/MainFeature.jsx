@@ -902,7 +902,7 @@ const MainFeature = forwardRef((props, ref) => {
             </motion.div>
           )}
         </AnimatePresence>
-    </div>
+      </div>
   );
 });
 
