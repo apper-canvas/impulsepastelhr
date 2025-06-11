@@ -1,8 +1,7 @@
-import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'; 
-import { getIcon } from '../utils/iconUtils';
+import { getIcon } from '@/utils/iconUtils';
 import { toast } from 'react-toastify';
-
 const MainFeature = forwardRef((props, ref) => {
   // Icons
   const CalendarIcon = getIcon('calendar');
@@ -899,9 +898,11 @@ const MainFeature = forwardRef((props, ref) => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+</motion.div>
           )}
         </AnimatePresence>
+      </div>
+    </div>
   );
 });
 
